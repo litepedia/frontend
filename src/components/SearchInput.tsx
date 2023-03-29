@@ -41,7 +41,8 @@ export const Input = ({
   onSubmit: () => void;
 }) => {
   const [value, setValue] = useState<string>("");
-  const debouncedValue = useDebounce<string>(value, 500);
+  const debouncedValue = useDebounce<string>(value, value ? 300 : 0);
+  
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Enter") {
