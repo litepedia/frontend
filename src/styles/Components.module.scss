@@ -1,0 +1,62 @@
+@import "./global.scss";
+
+
+.input {
+  flex: 1;
+  height: 100%;
+  outline: unset;
+  border: 1px solid #a2a9b1;
+  border-right: unset;
+  border-radius: unset;
+  text-indent: 10px;
+  &:focus {
+    border: 1px solid $primary;
+    border-right: unset;
+  }
+}
+
+
+.searchInput{
+   position: relative;
+   height: 100%;
+   flex: 1;
+   display: flex;
+}
+
+.searchButton {
+  width: 40px;
+  height: 100%;
+  background: $primary;
+  border: unset;
+  color: white;
+}
+
+
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  position: relative;
+}
+
+.results {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: calc(100% - 40px);
+  border: 1px solid #a2a9b1;
+  border-top: unset;
+}
+
+.result {
+  width: 100%;
+  display: flex;
+  min-height: 60px;
+  padding: 0px 20px;
+  align-items: center;
+  border-bottom: 1px solid #eaecf0;
+}
