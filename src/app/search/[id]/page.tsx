@@ -3,9 +3,15 @@ import { Metadata } from "next";
 import Head from "next/head";
 import React from "react";
 
-const getData = async (value: string) => {
+const API_URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3001"
+    : "litepedia.netlify.app";
 
-  const res = await fetch(`http://localhost:3001/api/search?id=${value}`);
+const getData = async (value: string) => {
+  console.log({API_URL});
+  
+  const res = await fetch(`${API_URL}/api/search?id=${value}`);
 
   return res.json();
 };
@@ -25,9 +31,9 @@ async function Page(searchParams: any) {
 
   return (
     <>
-    <Head>
-      <title>{res.data.title}</title>
-    </Head>
+      <Head>
+        <title>{res.data.title}</title>
+      </Head>
       <div>{res.data.content}</div>
     </>
   );
