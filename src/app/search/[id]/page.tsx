@@ -6,7 +6,7 @@ import React from "react";
 const API_URL =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:3001"
-    : "litepedia.netlify.app";
+    : "https://litepedia.netlify.app";
 
 const getData = async (value: string) => {
   console.log({API_URL});
