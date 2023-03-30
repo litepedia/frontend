@@ -8,14 +8,7 @@ import { useRouter } from "next/navigation";
 import {  SearchInput } from "@/components/SearchInput";
 
 export default function Home() {
-  const router = useRouter();
-  const [searcValue, setSearchValue] = useState("");
 
-  const search = () => {
-    if (searcValue) {
-      router.push(`/search/${searcValue}`);
-    }
-  };
   return (
     <main className={styles.container}>
       <Header />

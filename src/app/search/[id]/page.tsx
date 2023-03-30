@@ -1,7 +1,6 @@
 import _ from "lodash";
-import { Metadata } from "next";
-import Head from "next/head";
 import React from "react";
+import styles from "@/styles/SearchPage.module.scss";
 
 const API_URL =
   process.env.NODE_ENV !== "production"
@@ -16,23 +15,24 @@ const getData = async (value: string) => {
   return res.json();
 };
 
-export async function generateMetadata({ params }: any): Promise<Metadata> {
-  try {
-    const res = await getData(params.id);
+// export async function generateMetadata({ params }: any): Promise<Metadata> {
+//   try {
+//     const res = await getData(params.id);
 
-    return { title: res.data.title };
-  } catch (error) {
-    return {title :''}
-  }
-}
+//     return { title: res.data.title };
+//   } catch (error) {
+//     return {title :''}
+//   }
+// }
 
 async function Page(searchParams: any) {
   const res = await getData(searchParams.params.id);
 
   return (
     <>
-    
-      <div>{res.data.content}</div>
+      <div className={styles.content}>
+        <p>{res.data.content}</p>
+      </div>
     </>
   );
 }

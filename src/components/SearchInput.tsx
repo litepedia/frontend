@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FiSearch } from "react-icons/fi";
 import _ from "lodash";
 import fetchJsonp from "fetch-jsonp";
+import Link from "next/link";
 
 export const SearchInput = () => {
   const router = useRouter();
@@ -90,6 +91,7 @@ export const SearchResults = ({
     },
     {
       enabled: !!searchValue,
+      staleTime: Infinity
     }
   );
 
@@ -97,13 +99,15 @@ export const SearchResults = ({
   return (
     <div className={styles.results}>
       {results?.map((result) => (
-        <div
+        <Link
           className={styles.result}
           key={result.title}
-          onClick={() => onSearch(result.title.toLowerCase())}
+          href={`/search/${result.title.toLowerCase()}`}
+          prefetch={false}
+          shallow={false}
         >
           <p>{result.title}</p>
-        </div>
+        </Link>
       ))}
     </div>
   );

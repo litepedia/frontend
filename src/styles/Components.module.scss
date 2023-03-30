@@ -36,11 +36,11 @@
 .searchContainer {
   display: flex;
   align-items: center;
-  max-width: 500px;
   justify-content: space-between;
   height: 40px;
   width: 100%;
   position: relative;
+  z-index: 9;
 }
 
 .results {
@@ -50,6 +50,7 @@
   width: calc(100% - 40px);
   border: 1px solid #a2a9b1;
   border-top: unset;
+  background: white;
 }
 
 .result {
@@ -88,7 +89,7 @@
 
 .gridContainer {
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     padding: 0px 50px;
     margin-left: auto;
     margin-right: auto;
