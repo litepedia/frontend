@@ -1,41 +1,35 @@
-
-import { SearchInput } from "@/components/SearchInput";
 import _ from "lodash";
 import { Metadata } from "next";
+import Head from "next/head";
 import React from "react";
 
 const getData = async (value: string) => {
 
-const encoded = decodeURIComponent(value).split(" ").join("_");
-      const url = `${process.env.API_URL}/litePediaTerm/${encodeURIComponent(
-        encoded
-      )}`;
-      console.log(encoded);
-      
-  const response = await fetch(url);
+  const res = await fetch(`http://localhost:3001/api/search?id=${value}`);
 
-  const la = await response.json();
-
-  return la;
+  return res.json();
 };
 
-export async function generateMetadata({ params }: any): Promise<Metadata> {
+// export async function generateMetadata({ params }: any): Promise<Metadata> {
+//   try {
+//     const res = await getData(params.id);
 
-  const res = await getData(params.id);
-  console.log(res);
-  
-  
-  return { title: res.title };
-}
+//     return { title: res.data.title };
+//   } catch (error) {
+//     return {title :''}
+//   }
+// }
 
 async function Page(searchParams: any) {
   const res = await getData(searchParams.params.id);
 
   return (
-    <div>
-      <SearchInput />
-      <div>{res.content}</div>
-    </div>
+    <>
+    <Head>
+      <title>{res.data.title}</title>
+    </Head>
+      <div>{res.data.content}</div>
+    </>
   );
 }
 
