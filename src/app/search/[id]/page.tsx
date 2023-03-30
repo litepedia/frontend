@@ -14,18 +14,18 @@ const encoded = decodeURIComponent(value).split(" ").join("_");
       
   const response = await fetch(url);
 
-  const la = await response.text();
-  if (la.indexOf("An error occurred while scraping the content.") > 0) {
-    throw new Error("An error occurred while scraping the content.");
-  }
+  const la = await response.json();
+
   return la;
 };
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
 
   const res = await getData(params.id);
+  console.log(res);
   
-  return { title: '' };
+  
+  return { title: res.title };
 }
 
 async function Page(searchParams: any) {
@@ -34,7 +34,7 @@ async function Page(searchParams: any) {
   return (
     <div>
       <SearchInput />
-      <div dangerouslySetInnerHTML={{ __html: res }}></div>
+      <div>{res.content}</div>
     </div>
   );
 }
