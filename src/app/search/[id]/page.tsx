@@ -16,24 +16,22 @@ const getData = async (value: string) => {
   return res.json();
 };
 
-// export async function generateMetadata({ params }: any): Promise<Metadata> {
-//   try {
-//     const res = await getData(params.id);
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  try {
+    const res = await getData(params.id);
 
-//     return { title: res.data.title };
-//   } catch (error) {
-//     return {title :''}
-//   }
-// }
+    return { title: res.data.title };
+  } catch (error) {
+    return {title :''}
+  }
+}
 
 async function Page(searchParams: any) {
   const res = await getData(searchParams.params.id);
 
   return (
     <>
-      <Head>
-        <title>{res.data.title}</title>
-      </Head>
+    
       <div>{res.data.content}</div>
     </>
   );
