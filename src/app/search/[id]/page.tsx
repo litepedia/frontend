@@ -31,6 +31,7 @@ async function Page(searchParams: any) {
   return (
     <>
       <div className={styles.content}>
+        <h2 >{res.data.title}</h2>
         <p>{res.data.content}</p>
       </div>
     </>

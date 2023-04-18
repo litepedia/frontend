@@ -102,7 +102,7 @@ export const SearchResults = ({
         <Link
           className={styles.result}
           key={result.title}
-          href={`/search/${result.title.toLowerCase()}`}
+          href={`/nextjs/search/${result.title.toLowerCase()}`}
           prefetch={false}
           shallow={false}
         >
