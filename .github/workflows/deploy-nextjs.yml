@@ -20,6 +20,6 @@ jobs:
     - id: 'deploy-nextjs'
       uses: 'google-github-actions/deploy-cloud-functions@v1'
       with:
-        name: 'nextjs'
+        name: 'nextjss'
         runtime: 'nodejs16'
         entry_point: 'handler'
