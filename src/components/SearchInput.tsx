@@ -1,31 +1,54 @@
 "use client";
-import { useDebounce } from "@/hooks";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useDebounce, useOnClickOutside } from "@/hooks";
+import { useEffect, useRef, useState } from "react";
 import styles from "@/styles/Components.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { FiSearch } from "react-icons/fi";
 import _ from "lodash";
 import fetchJsonp from "fetch-jsonp";
-import Link from "next/link";
+import { useRouter, useParams } from "next/navigation";
 
 export const SearchInput = () => {
   const router = useRouter();
+  const params = useParams();
+  
   const [searchValue, setSearchValue] = useState<string>("");
+  const [showResults, setShowResults] = useState(false);
+  const ref = useRef<any>();
+
+  useOnClickOutside(ref, () => setShowResults(false));
 
   const onSubmit = () => {
     if (searchValue) {
-     search(searchValue);
+      search(searchValue);
     }
   };
 
-  const search = (value: string) => router.push(`/search/${value}`);
+  const search = (value: string) =>
+    router.push(`/search/${value}`, {
+      forceOptimisticNavigation: true,
+    });
+
+  const onSelect = (value: string) => {
+    // setShowResults(false);
+    search(value);
+  };
 
   return (
-    <div className={styles.searchContainer}>
+    <div className={styles.searchContainer} ref={ref}>
       <div className={styles.searchInput}>
-        <Input onChange={setSearchValue} onSubmit={onSubmit} />
-        <SearchResults onSearch={search} searchValue={searchValue} />
+        <Input
+          initialValue={params.id}
+          onFocus={() => setShowResults(true)}
+          onChange={setSearchValue}
+          onSubmit={onSubmit}
+        />
+        {showResults && (
+          <SearchResults
+            onSelect={onSelect}
+            searchValue={searchValue}
+          />
+        )}
       </div>
       <button className={styles.searchButton} onClick={onSubmit}>
         <FiSearch style={{ width: 20, height: 20 }} />
@@ -37,12 +60,20 @@ export const SearchInput = () => {
 export const Input = ({
   onChange,
   onSubmit,
+  onFocus,
+  initialValue = '',
 }: {
   onChange: (value: string) => void;
   onSubmit: () => void;
+  onFocus: () => void;
+  initialValue?: string;
 }) => {
   const [value, setValue] = useState<string>("");
   const debouncedValue = useDebounce<string>(value, value ? 300 : 0);
+
+  useEffect(() => {
+   setValue(initialValue);
+  }, [initialValue]);
   
 
   const handleKeyDown = (event: any) => {
@@ -58,6 +89,7 @@ export const Input = ({
 
   return (
     <input
+      onFocus={onFocus}
       className={styles.input}
       placeholder="Search"
       value={value}
@@ -69,10 +101,10 @@ export const Input = ({
 
 export const SearchResults = ({
   searchValue,
-  onSearch,
+  onSelect,
 }: {
   searchValue: string;
-  onSearch: (value: string) => void;
+  onSelect: (value: string) => void;
 }) => {
   const { data: results } = useQuery(
     ["search-results", searchValue],
@@ -91,7 +123,7 @@ export const SearchResults = ({
     },
     {
       enabled: !!searchValue,
-      staleTime: Infinity
+      staleTime: Infinity,
     }
   );
 
@@ -99,15 +131,13 @@ export const SearchResults = ({
   return (
     <div className={styles.results}>
       {results?.map((result) => (
-        <Link
+        <button
           className={styles.result}
           key={result.title}
-          href={`/search/${result.title.toLowerCase()}`}
-          prefetch={false}
-          shallow={false}
+          onClick={() => onSelect(result.title.toLowerCase())}
         >
           <p>{result.title}</p>
-        </Link>
+        </button>
       ))}
     </div>
   );
