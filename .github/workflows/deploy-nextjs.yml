@@ -17,7 +17,7 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
-    - id: 'deploy Next.js'
+    - id: 'deploy-nextjs'
       uses: 'google-github-actions/deploy-cloud-functions@v1'
       with:
         name: 'nextjs'
