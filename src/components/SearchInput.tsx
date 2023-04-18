@@ -32,6 +32,7 @@ export const SearchInput = () => {
       forceOptimisticNavigation: true,
     });
 
+
     
   const onSelect = (value: string) => {
     // setShowResults(false);
