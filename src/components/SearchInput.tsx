@@ -17,6 +17,7 @@ export const SearchInput = () => {
   const [showResults, setShowResults] = useState(false);
   const ref = useRef<any>();
 
+  
   useOnClickOutside(ref, () => setShowResults(false));
 
   const onSubmit = () => {
