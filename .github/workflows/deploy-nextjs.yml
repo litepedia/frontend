@@ -19,10 +19,9 @@ jobs:
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
-      
+
     - id: 'deploy-nextjs'
       uses: 'google-github-actions/deploy-cloud-functions@v1'
       with:
         name: 'nextjss'
-        runtime: 'nodejs16'
         entry_point: 'handler'
