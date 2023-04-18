@@ -6,11 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { FiSearch } from "react-icons/fi";
 import _ from "lodash";
 import fetchJsonp from "fetch-jsonp";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter,  useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export const SearchInput = () => {
   const router = useRouter();
-  const params = useParams();
+  const params =  useSearchParams();
   
   const [searchValue, setSearchValue] = useState<string>("");
   const [showResults, setShowResults] = useState(false);
@@ -131,7 +132,7 @@ export const SearchResults = ({
   return (
     <div className={styles.results}>
       {results?.map((result) => (
-        <button
+        <Link
           className={styles.result}
           key={result.title}
           href={`/nextjs/search/${result.title.toLowerCase()}`}
@@ -139,7 +140,7 @@ export const SearchResults = ({
           shallow={false}
         >
           <p>{result.title}</p>
-        </button>
+        </Link>
       ))}
     </div>
   );

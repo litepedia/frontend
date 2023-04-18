@@ -13,10 +13,13 @@ export async function GET(request: Request) {
   if (!id) {
     return NextResponse.error();
   }
+  console.log(`fetching ${process.env.API_URL}litePediaTerm/${id}`);
   
   const res = await fetch(`${process.env.API_URL}/litePediaTerm/${id}`);
-
-  const data = await res.json();
-
-  return NextResponse.json({ data });
+  //console.log(await res.text());
+  
+  // const data = await res.text();
+  // console.log(JSON.parse(data));
+  
+  return res;
 }
