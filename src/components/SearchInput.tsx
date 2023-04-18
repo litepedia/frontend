@@ -26,12 +26,13 @@ export const SearchInput = () => {
     }
   };
 
-  
+
   const search = (value: string) =>
     router.push(`/search/${value}`, {
       forceOptimisticNavigation: true,
     });
 
+    
   const onSelect = (value: string) => {
     // setShowResults(false);
     search(value);
