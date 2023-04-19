@@ -38,12 +38,13 @@ export const SearchInput = () => {
     // setShowResults(false);
     search(value);
   };
+  
 
   return (
     <div className={styles.searchContainer} ref={ref}>
       <div className={styles.searchInput}>
         <Input
-          initialValue={params.id}
+          
           onFocus={() => setShowResults(true)}
           onChange={setSearchValue}
           onSubmit={onSubmit}
