@@ -26,6 +26,7 @@ export const SearchInput = () => {
     }
   };
 
+  
 
   const search = (value: string) =>
     router.push(`/search/${value}`, {
@@ -38,7 +39,7 @@ export const SearchInput = () => {
     // setShowResults(false);
     search(value);
   };
-  
+
 
   return (
     <div className={styles.searchContainer} ref={ref}>
