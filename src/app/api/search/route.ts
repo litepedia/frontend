@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   }
   console.log(`fetching ${process.env.API_URL}litePediaTerm/${id}`);
   
-  const res = await fetch(`${process.env.API_URL}/litePediaTerm/${id}`);
+  const res = await fetch(`${process.env.API_URL}/litePediaTerm/${id}`, { cache: 'no-store' });
   //console.log(await res.text());
   
   // const data = await res.text();
