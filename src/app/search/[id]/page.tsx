@@ -29,13 +29,14 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 async function Page(searchParams: any) {
 
   const res = await getData(searchParams.params.id);
-  console.log('getData-> res=', res);
+  console.log('Page ! getData-> res=', res);
   
   return (
     <>
       <div >
+        <div>Hello:</div>
         <h2 >{res.title}</h2>
-        <p>{res.content}</p>
+        <p>{res.description}</p>
       </div>
     </>
   );

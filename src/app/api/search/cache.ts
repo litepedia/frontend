@@ -13,10 +13,9 @@ const firebaseConfig = {
   authDomain: process.env.G_AUTH_DOMAIN,
   projectId: process.env.G_PROJECT_ID,
   storageBucket: process.env.G_STORAGE_BUCKET,
-  messagingSenderId: process.env.G_MESSAGING_SENDER_ID,
+  messagingSenderId: process.env.G_MSG_SENDER_ID,
   appId: process.env.G_APP_ID
 };
-
 
 
 class Term {
@@ -62,6 +61,8 @@ export async function getCachedContent(key: string): Promise<Term>{
     
     let docRef = await doc(db, COLLECTION, key).withConverter(termConverter);
     let docSnap = await getDoc(docRef);  
+    console.log({docSnap : docSnap.data()});
+    
     if (docSnap && docSnap.exists()) {
         console.log(`cache hit ${key}`);
         return docSnap.data();

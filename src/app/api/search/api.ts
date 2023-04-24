@@ -5,10 +5,20 @@ const openai = new OpenAIApi(configuration);
 const BASE_QUESTION = process.env.GPT_QUESTION || 'explain to a first grader this paragraph in no longer than four sentences \n';
 
 export async function callGpt(key: string, text: string) {
-    const cachedResponse = await getCachedContent(key);
-    if (cachedResponse) {
-        return cachedResponse;
+    try { 
+
+        const cachedResponse = await getCachedContent(key);
+        if (cachedResponse) {
+            console.log(`cache:Hit for ${key}`);
+            
+            return cachedResponse;
+        }
+    } catch(e:any) {
+        console.error(e);
     }
+
+    console.log(`cache:Miss fetching ${key}`);
+    
     const messages = [
         { role: "user", content: `${BASE_QUESTION} ${text}` }
     ];
@@ -21,5 +31,8 @@ export async function callGpt(key: string, text: string) {
     if (botMessage && botMessage.content) {
         await setCachedContent(key, {title: key, description: botMessage.content});
     }
-    return botMessage?.content;
+    return  { 
+        title: key,
+        description: botMessage?.content
+    }
 }

@@ -1,9 +1,15 @@
 import _ from "lodash";
 import { NextResponse } from "next/server";
+import { callGpt } from "./api";
 
 const delay = (delayInms: number) => {
   return new Promise((resolve) => setTimeout(resolve, delayInms));
 };
+
+const API_URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3001"
+    : "https://litepedia.netlify.app";
 
 export async function GET(request: Request) {
   
@@ -13,13 +19,13 @@ export async function GET(request: Request) {
   if (!id) {
     return NextResponse.error();
   }
-  console.log(`fetching ${process.env.API_URL}litePediaTerm/${id}`);
+  // console.log(`fetching ${process.env.API_URL}litePediaTerm/${id}`);
   
-  const res = await fetch(`${process.env.API_URL}/litePediaTerm/${id}`, { cache: 'no-store' });
-  //console.log(await res.text());
-  
-  // const data = await res.text();
-  // console.log(JSON.parse(data));
-  
-  return res;
+  // const res = await fetch(`${process.env.API_URL}/litePediaTerm/${id}`, { cache: 'no-store' });
+
+  let key = id.replaceAll("%20", "_");
+  let text = key.replaceAll("_", " ");
+
+  let data = await callGpt(key, text);
+  return NextResponse.json(data)
 }

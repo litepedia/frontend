@@ -6,7 +6,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
-  assetPrefix: true ? 'https://us-central1-stunning-choir-314214.cloudfunctions.net/nextjs' : '',
+  assetPrefix: process.env.NODE_ENV == 'production' ? 'https://us-central1-stunning-choir-314214.cloudfunctions.net/nextjs' : '',
   experimental: {
     appDir: true,
   },
