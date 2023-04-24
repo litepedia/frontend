@@ -134,6 +134,8 @@ export const SearchResults = ({
     }
   );
 
+  let prefix = process.env.NODE_ENV == 'production' ? '/nextjs' : ''
+
   if (!searchValue || !results?.length) return null;
   return (
     <div className={styles.results}>
@@ -141,7 +143,7 @@ export const SearchResults = ({
         <Link
           className={styles.result}
           key={result.title}
-          href={`/nextjs/search/${result.title.toLowerCase()}`}
+          href={`${prefix}/search/${result.title.toLowerCase()}`}
           prefetch={false}
           shallow={false}
         >

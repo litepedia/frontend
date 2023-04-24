@@ -31,11 +31,13 @@ async function Page(searchParams: any) {
   const res = await getData(searchParams.params.id);
   console.log('Page ! getData-> res=', res);
   
+  let title = res.title.replaceAll("_", " ")
+  title = title[0].toUpperCase() + title.slice(1).toLowerCase();
   return (
     <>
       <div >
-        <div>Hello:</div>
-        <h2 >{res.title}</h2>
+        <h2 >{title}</h2>
+        <br />
         <p>{res.description}</p>
       </div>
     </>
