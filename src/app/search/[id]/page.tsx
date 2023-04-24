@@ -9,9 +9,9 @@ const API_URL =
     : "https://litepedia.netlify.app";
 
 const getData = async (value: string) => {
-  console.log(`fetching https://litepedia.netlify.app/api/search?id=${value.replaceAll("%20", "_")}`);
+  console.log(`fetching ${API_URL}/api/search?id=${value.replaceAll("%20", "_")}`);
   
-  const res = await fetch(`https://litepedia.netlify.app/api/search?id=${value.replaceAll("%20", "_")}`, { cache: 'no-store' });
+  const res = await fetch(`${API_URL}/api/search?id=${value.replaceAll("%20", "_")}`, { cache: 'no-store' });
   return res.json();
 };
 
