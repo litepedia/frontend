@@ -1,15 +1,11 @@
 import _ from "lodash";
 import { NextResponse } from "next/server";
-import { callGpt } from "./api";
+import { callGpt } from "../../../backend/api";
 
 const delay = (delayInms: number) => {
   return new Promise((resolve) => setTimeout(resolve, delayInms));
 };
 
-const API_URL =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:3001"
-    : "https://litepedia.netlify.app";
 
 export async function GET(request: Request) {
   
