@@ -13,6 +13,7 @@ const getData = async (value: string) => {
   return res.json();
 };
 
+
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   try {
     const res = await getData(params.id);
