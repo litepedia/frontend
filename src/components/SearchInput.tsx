@@ -106,6 +106,10 @@ export const Input = ({
   );
 };
 
+function  formatTerm(term: string) {
+  return term.replace(/ /g, "_");
+}
+
 export const SearchResults = ({
   searchValue,
   onSelect,
@@ -140,10 +144,11 @@ export const SearchResults = ({
   return (
     <div className={styles.results}>
       {results?.map((result) => (
+        
         <Link
           className={styles.result}
           key={result.title}
-          href={`${prefix}/search/${result.title.toLowerCase()}`}
+          href={`${prefix}/search/${formatTerm(result.title.toLowerCase())}`}
           prefetch={false}
           shallow={false}
         >

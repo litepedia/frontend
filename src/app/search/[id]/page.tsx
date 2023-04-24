@@ -29,7 +29,6 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 async function Page(searchParams: any) {
 
   const res = await getData(searchParams.params.id);
-  console.log('Page ! getData-> res=', res);
   
   let title = res.title.replaceAll("_", " ")
   title = title[0].toUpperCase() + title.slice(1).toLowerCase();
