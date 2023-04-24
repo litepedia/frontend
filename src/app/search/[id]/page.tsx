@@ -9,6 +9,8 @@ const API_URL =
     : "https://litepedia.netlify.app";
 
 const getData = async (value: string) => {
+  console.log(`fetching https://litepedia.netlify.app/api/search?id=${value.replaceAll("%20", "_")}`);
+  
   const res = await fetch(`https://litepedia.netlify.app/api/search?id=${value.replaceAll("%20", "_")}`, { cache: 'no-store' });
   return res.json();
 };
@@ -27,7 +29,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 async function Page(searchParams: any) {
 
   const res = await getData(searchParams.params.id);
-  console.log('xxxxx', res);
+  console.log('getData-> res=', res);
   
   return (
     <>
