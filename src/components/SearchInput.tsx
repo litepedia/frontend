@@ -7,6 +7,7 @@ import _ from "lodash";
 import fetchJsonp from "fetch-jsonp";
 import { useRouter, useParams } from "next/navigation";
 import { prefix } from "@/consts";
+import Spinner from "./Spinner";
 
 export const SearchInput = () => {
   const router = useRouter();
@@ -110,11 +111,24 @@ export const SearchResults = ({
   onSelect: (value: string) => void;
   onClose: () => void;
 }) => {
-  const { data: results } = useWikiSearch(searchValue);
+  const { data: results, isLoading } = useWikiSearch(searchValue);
 
-  console.log(results);
+  if (!searchValue) return null;
 
-  if (!searchValue || !results?.length) return null;
+  if (isLoading) {
+    return (
+      <div className="results">
+        <div className="result results-loader">
+          <div className="skeleton circle"></div>
+          <div className="resultContent">
+            <div style={{ width: "50%" }} className="skeleton"></div>
+            <div style={{ width: "70%" }} className="skeleton"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="results">
       {results?.map((result) => (
