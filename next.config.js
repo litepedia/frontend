@@ -9,6 +9,7 @@ const nextConfig = {
   assetPrefix: process.env.NODE_ENV == 'production' ? 'https://us-central1-stunning-choir-314214.cloudfunctions.net/nextjs' : '',
   experimental: {
     appDir: true,
+    typedRoutes: true,
   },
 };
 
