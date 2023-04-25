@@ -6,7 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import _ from "lodash";
 import fetchJsonp from "fetch-jsonp";
 import { useRouter, useParams } from "next/navigation";
-  let prefix = process.env.NODE_ENV == "production" ? "/nextjs" : "";
+import { prefix } from "@/consts";
 
 export const SearchInput = () => {
   const router = useRouter();
