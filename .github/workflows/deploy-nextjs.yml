@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main # Replace 'main' with your default branch name if different
+      - appdir
 
 jobs:
   deploy:
