@@ -1,63 +1,54 @@
 "use client";
 import { useDebounce, useOnClickOutside } from "@/hooks";
 import { useEffect, useRef, useState } from "react";
-import styles from "@/styles/Components.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { FiSearch } from "react-icons/fi";
 import _ from "lodash";
 import fetchJsonp from "fetch-jsonp";
-import { useRouter,  useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useRouter, useParams } from "next/navigation";
 
 export const SearchInput = () => {
   const router = useRouter();
-  const params =  useSearchParams();
-  
+  const idParam = useParams().id;
+
   const [searchValue, setSearchValue] = useState<string>("");
   const [showResults, setShowResults] = useState(false);
   const ref = useRef<any>();
 
-  
   useOnClickOutside(ref, () => setShowResults(false));
 
-  const onSubmit = () => {
-    if (searchValue) {
-      search(searchValue);
+  useEffect(() => {
+    if (idParam) {
+      setSearchValue(idParam.replaceAll("_", " "));
     }
-  };
+  }, [idParam]);
 
-  
-
-  const search = (value: string) =>
-    router.push(`/search/${value}`, {
+  const search = (value: string) => {
+    if (!value) return;
+    setSearchValue(value.toLowerCase());
+    router.push(`/search/${formatTerm(value.toLowerCase())}`, {
       forceOptimisticNavigation: true,
     });
-
-
-    
-  const onSelect = (value: string) => {
-    // setShowResults(false);
-    search(value);
   };
 
-
   return (
-    <div className={styles.searchContainer} ref={ref}>
-      <div className={styles.searchInput}>
+    <div className="search" ref={ref}>
+      <div className="inputContainer">
         <Input
-          
           onFocus={() => setShowResults(true)}
           onChange={setSearchValue}
-          onSubmit={onSubmit}
+          onSubmit={search}
+          initialValue={searchValue}
         />
         {showResults && (
           <SearchResults
-            onSelect={onSelect}
+            onClose={() => setShowResults(false)}
+            onSelect={search}
             searchValue={searchValue}
           />
         )}
       </div>
-      <button className={styles.searchButton} onClick={onSubmit}>
+      <button className="searchButton" onClick={() => search(searchValue)}>
         <FiSearch style={{ width: 20, height: 20 }} />
       </button>
     </div>
@@ -68,10 +59,10 @@ export const Input = ({
   onChange,
   onSubmit,
   onFocus,
-  initialValue = '',
+  initialValue = "",
 }: {
   onChange: (value: string) => void;
-  onSubmit: () => void;
+  onSubmit: (value: string) => void;
   onFocus: () => void;
   initialValue?: string;
 }) => {
@@ -79,14 +70,13 @@ export const Input = ({
   const debouncedValue = useDebounce<string>(value, value ? 300 : 0);
 
   useEffect(() => {
-   setValue(initialValue);
+    setValue(initialValue);
   }, [initialValue]);
-  
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Enter") {
       // 👇 Get input value
-      onSubmit();
+      onSubmit(value);
     }
   };
 
@@ -97,8 +87,8 @@ export const Input = ({
   return (
     <input
       onFocus={onFocus}
-      className={styles.input}
-      placeholder="Search"
+      className="input"
+      placeholder="Insert a search term"
       value={value}
       onKeyDown={handleKeyDown}
       onChange={(e) => setValue(e.target.value)}
@@ -106,18 +96,52 @@ export const Input = ({
   );
 };
 
-function  formatTerm(term: string) {
+function formatTerm(term: string) {
   return term.replace(/ /g, "_");
 }
 
 export const SearchResults = ({
   searchValue,
   onSelect,
+  onClose,
 }: {
   searchValue: string;
   onSelect: (value: string) => void;
+  onClose: () => void;
 }) => {
-  const { data: results } = useQuery(
+  const { data: results } = useWikiSearch(searchValue);
+
+  console.log(results);
+
+  if (!searchValue || !results?.length) return null;
+  return (
+    <div className="results">
+      {results?.map((result) => (
+        <button
+          className="result"
+          key={result.title}
+          onClick={() => {
+            onSelect(result.title);
+            onClose();
+          }}
+        >
+          {result.thumbnail ? (
+            <img className="resultImg" src={result.thumbnail.source} />
+          ) : (
+            <div className="resultImg" />
+          )}
+          <div className="resultContent">
+            <p className="resultContentTitle">{result.title}</p>
+            <p className="resultContentDescription">{result.description}</p>
+          </div>
+        </button>
+      ))}
+    </div>
+  );
+};
+
+const useWikiSearch = (searchValue: string) => {
+  return useQuery(
     ["search-results", searchValue],
     async () => {
       const response = await fetchJsonp(
@@ -136,25 +160,5 @@ export const SearchResults = ({
       enabled: !!searchValue,
       staleTime: Infinity,
     }
-  );
-
-  let prefix = process.env.NODE_ENV == 'production' ? '/nextjs' : ''
-
-  if (!searchValue || !results?.length) return null;
-  return (
-    <div className={styles.results}>
-      {results?.map((result) => (
-        
-        <Link
-          className={styles.result}
-          key={result.title}
-          href={`${prefix}/search/${formatTerm(result.title.toLowerCase())}`}
-          prefetch={false}
-          shallow={false}
-        >
-          <p>{result.title}</p>
-        </Link>
-      ))}
-    </div>
   );
 };

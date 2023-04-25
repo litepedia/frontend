@@ -1,11 +1,10 @@
 
-import styles from "@/styles/Main.module.scss";
 import {  SearchInput } from "@/components/SearchInput";
 
 export default function Home() {
 
   return (
-    <main className={styles.container}>
+    <main className="main-page container">
       <Header />
       <SearchInput />
     </main>
@@ -14,7 +13,7 @@ export default function Home() {
 
 const Header = () => {
   return (
-    <div className={styles.header}>
+    <div className="main-page-header">
       <h2>Wikipedia</h2>
       <h4>The Free Encyclopedia</h4>
     </div>

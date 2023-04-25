@@ -1,14 +1,14 @@
-import { SearchInput } from '@/components/SearchInput';
-import React from 'react'
-import styles from "@/styles/SearchPage.module.scss";
+import { SearchInput } from "@/components/SearchInput";
 
-function layout({children}:{children:React.ReactNode}) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className={styles.layout}>
+    <div className="search-page">
       <SearchInput />
       {children}
     </div>
   );
 }
-
-export default layout
