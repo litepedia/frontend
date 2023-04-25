@@ -6,6 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import _ from "lodash";
 import fetchJsonp from "fetch-jsonp";
 import { useRouter, useParams } from "next/navigation";
+  let prefix = process.env.NODE_ENV == "production" ? "/nextjs" : "";
 
 export const SearchInput = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ export const SearchInput = () => {
   const search = (value: string) => {
     if (!value) return;
     setSearchValue(value.toLowerCase());
-    router.push(`/search/${formatTerm(value.toLowerCase())}`, {
+    router.push(`${prefix}/search/${formatTerm(value.toLowerCase())}`, {
       forceOptimisticNavigation: true,
     });
   };
