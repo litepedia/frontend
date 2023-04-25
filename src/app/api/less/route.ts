@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const config = {
-  runtime: 'edge',
-};
 
-const handler = (req: NextRequest) => {
+export async function GET(request: Request) {
   return NextResponse.json({
-    name: `Hello, from ${req.url} I'm now an Edge Function!`,
+    name: `Hello, from ${request.url} I'm now an Edge Function!`,
   });
 };
-
-export default handler;
